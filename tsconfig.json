@@ -3,6 +3,13 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      "@app/users/*": ["src/app/domains/users/*"],
+      "@app/shared/*": ["src/app/domains/shared/*"],
+      "shared-lib": ["./dist/shared-lib"],
+      "users-managment": ["./dist/users-managment"]
+    },
     "strict": true,
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,
@@ -28,6 +35,18 @@
     },
     {
       "path": "./tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/users-managment/tsconfig.lib.json"
+    },
+    {
+      "path": "./projects/users-managment/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/shared-lib/tsconfig.lib.json"
+    },
+    {
+      "path": "./projects/shared-lib/tsconfig.spec.json"
     }
   ]
 }
