@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { FakeUserService, USER_SERVICE, UserService } from '../data';
+import { FakeUserService, GetUserIdService, USER_SERVICE, UserService } from '../data';
 
 @Component({
   selector: 'lib-list-users',
@@ -12,6 +12,7 @@ import { FakeUserService, USER_SERVICE, UserService } from '../data';
       provide: USER_SERVICE,
       useClass: FakeUserService,
     },
+    GetUserIdService,
     UserService,
   ],
 })

@@ -1,5 +1,5 @@
-import { Component, signal } from '@angular/core';
-import { createUserFormSchema, type CreateUserForm } from '../data';
+import { Component, inject, signal } from '@angular/core';
+import { createUserFormSchema, UserService, type CreateUserForm } from '../data';
 import { form, Field } from '@angular/forms/signals';
 
 @Component({
@@ -9,6 +9,7 @@ import { form, Field } from '@angular/forms/signals';
   styleUrl: './create-user.css',
 })
 export class CreateUser {
+  readonly #userService = inject(UserService);
   readonly #user = signal<CreateUserForm>({
     name: '',
     email: '',
@@ -32,8 +33,13 @@ export class CreateUser {
    */
   saveOne(e: Event) {
     e.preventDefault();
-
+    if (this.userForm().invalid()) {
+      return;
+    }
     console.log(this.userForm().value());
+    this.#userService.create(this.userForm().value()).subscribe((response) => {
+      console.log(response);
+    });
   }
 
   /**

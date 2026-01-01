@@ -1,7 +1,7 @@
-import { computed, inject, Injectable, linkedSignal } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { switchMap } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { GetUserIdService, USER_SERVICE } from '..';
+import { CreateUserForm, GetUserIdService, User, USER_SERVICE } from '..';
 import { toApiResponse } from 'shared-lib';
 
 @Injectable()
@@ -34,40 +34,29 @@ export class UserService {
     initialValue: { data: null, message: '', status: 'loading' },
   });
 
-  /**
-   * This is the computed that will return the user data or a default user data if the user is not found.
-   */
-  #editUserForm = computed(() => {
-    let user = this.user()?.data;
-    if (!user) {
-      user = {
-        id: '',
-        name: '',
-        email: '',
-        city: '',
-        state: '',
-        country: '',
-        zip: '',
-        address: '',
-        phone: '',
-        role: '',
-        hobbies: [{ hobby: '' }],
-      };
-    }
-
-    return user;
-  });
-
-  /**
-   * This is the linked signal that will be used to return a writable signal that could be used to create the edit user form.
-   */
-  editUserForm = linkedSignal(this.#editUserForm);
-
   #getAll() {
     return this.#userRepository.getAll().pipe(
       toApiResponse({
         loadingMessage: 'Loading users...',
         successMessage: 'Users fetched successfully',
+      })
+    );
+  }
+
+  create(user: CreateUserForm) {
+    return this.#userRepository.create(user).pipe(
+      toApiResponse({
+        loadingMessage: 'Creating user...',
+        successMessage: 'User created successfully',
+      })
+    );
+  }
+
+  update(user: Partial<User>) {
+    return this.#userRepository.update(this.user()?.data?.id ?? '', user).pipe(
+      toApiResponse({
+        loadingMessage: 'Updating user...',
+        successMessage: 'User updated successfully',
       })
     );
   }

@@ -1,7 +1,6 @@
-import { inject, Injectable, InjectionToken } from '@angular/core';
+import { Injectable, InjectionToken } from '@angular/core';
 import { type CreateUserForm, type User, type UserList } from '../../data';
 import { delay, type Observable, of } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
 
 interface UserRepository {
   getAll: () => Observable<UserList>;
