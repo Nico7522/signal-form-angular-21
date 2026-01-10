@@ -1,6 +1,6 @@
 // Models
 export * from './models/user';
-export * from './models/create-user-form';
+export * from './models/address';
 
 // Validators
 export * from './validators/create-user-validator';

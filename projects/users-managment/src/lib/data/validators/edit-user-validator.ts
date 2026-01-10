@@ -8,20 +8,17 @@ export const editUserSchema = schema<User>((context) => {
     required(context.email, {
       message: 'Email is required',
     }),
-    required(context.city, {
+    required(context.address.city, {
       message: 'City is required',
     }),
-    required(context.state, {
+    required(context.address.state, {
       message: 'State is required',
     }),
-    required(context.country, {
+    required(context.address.country, {
       message: 'Country is required',
     }),
-    required(context.zip, {
+    required(context.address.zip, {
       message: 'Zip is required',
-    }),
-    required(context.address, {
-      message: 'Address is required',
     }),
     required(context.phone, {
       message: 'Phone is required',

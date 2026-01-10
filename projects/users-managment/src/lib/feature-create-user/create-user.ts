@@ -1,30 +1,34 @@
 import { Component, inject, signal } from '@angular/core';
-import { createUserFormSchema, UserService, type CreateUserForm } from '../data';
-import { form, Field } from '@angular/forms/signals';
+import {
+  createUserFormSchema,
+  FakeUserService,
+  GetUserIdService,
+  initCreateUserForm,
+  USER_SERVICE,
+  UserService,
+  type CreateUserForm,
+} from '../data';
+import { form } from '@angular/forms/signals';
+import { UserForm } from '../ui-common/user-form/user-form';
+import { PasswordForm } from '../ui-common/password-form/password-form';
 
 @Component({
   selector: 'app-create-user',
-  imports: [Field],
+  imports: [UserForm, PasswordForm],
   templateUrl: './create-user.html',
   styleUrl: './create-user.css',
+  providers: [
+    {
+      provide: USER_SERVICE,
+      useClass: FakeUserService,
+    },
+    GetUserIdService,
+    UserService,
+  ],
 })
 export class CreateUser {
   readonly #userService = inject(UserService);
-  readonly #user = signal<CreateUserForm>({
-    name: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-    city: '',
-    state: '',
-    country: '',
-    zip: '',
-    address: '',
-    phone: '',
-    role: '',
-    hobbies: [{ hobby: '' }],
-  });
-
+  readonly #user = signal<CreateUserForm>(initCreateUserForm);
   protected readonly userForm = form(this.#user, createUserFormSchema);
 
   /**
@@ -36,24 +40,6 @@ export class CreateUser {
     if (this.userForm().invalid()) {
       return;
     }
-    console.log(this.userForm().value());
-    this.#userService.create(this.userForm().value()).subscribe((response) => {
-      console.log(response);
-    });
-  }
-
-  /**
-   * This method is used to add a hobby to the create user form.
-   */
-  addHobby() {
-    this.userForm.hobbies().value.update((state) => [...state, { hobby: '' }]);
-  }
-
-  /**
-   * This method is used to remove a hobby from the create user form.
-   * @param index - The index of the hobby to remove.
-   */
-  removeHobby(index: number) {
-    this.userForm.hobbies().value.update((state) => state.filter((_, i) => i !== index));
+    this.#userService.create(this.userForm().value()).subscribe();
   }
 }

@@ -6,12 +6,13 @@ import {
   UserService,
   editUserSchema,
 } from '../data';
-import { Field, form } from '@angular/forms/signals';
+import { form } from '@angular/forms/signals';
 import { UserFormService } from '../data/services/user-form-service';
+import { UserForm } from '../ui-common/user-form/user-form';
 
 @Component({
   selector: 'app-edit-user',
-  imports: [Field],
+  imports: [UserForm],
   templateUrl: './edit-user.html',
   styleUrl: './edit-user.css',
   providers: [
@@ -39,11 +40,7 @@ export class EditUser {
     if (this.form().invalid()) {
       return;
     }
-
-    console.log(this.form().value());
-    this.#userService.update(this.form().value()).subscribe((response) => {
-      console.log(response);
-    });
+    this.#userService.update(this.form().value()).subscribe();
   }
 
   /**

@@ -107,9 +107,10 @@
               Address
             </h3>
             <div class="bg-gray-50 rounded-lg p-4">
-              <p class="text-gray-800 font-medium">{{ user.address }}</p>
-              <p class="text-gray-600 text-sm mt-1">{{ user.city }}, {{ user.state }} {{ user.zip }}</p>
-              <p class="text-gray-600 text-sm">{{ user.country }}</p>
+              <p class="text-gray-600 text-sm mt-1">
+                {{ user.address.city }}, {{ user.address.state }} {{ user.address.zip }}
+              </p>
+              <p class="text-gray-600 text-sm">{{ user.address.country }}</p>
             </div>
           </div>
 

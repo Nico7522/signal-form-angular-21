@@ -1,7 +1,10 @@
 import { inject, Injectable } from '@angular/core';
 import { switchMap } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { CreateUserForm, GetUserIdService, User, USER_SERVICE } from '..';
+import { CreateUserForm } from '../models/user';
+import { User } from '../models/user';
+import { GetUserIdService } from './get-user-id-service';
+import { USER_SERVICE } from '../mocks/fake-users-mock';
 import { toApiResponse } from 'shared-lib';
 
 @Injectable()

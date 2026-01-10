@@ -10,10 +10,10 @@ import {
 import { createUserHobbiesSchema, type CreateUserForm } from '..';
 
 export const createUserFormSchema = schema<CreateUserForm>((context) => {
-  (required(context.name, {
+  (required(context.user.name, {
     message: 'Name is required',
   }),
-    required(context.email, {
+    required(context.user.email, {
       message: 'Email is required',
     }),
     required(context.password, {
@@ -22,37 +22,37 @@ export const createUserFormSchema = schema<CreateUserForm>((context) => {
     required(context.confirmPassword, {
       message: 'Confirm Password is required',
     }),
-    required(context.city, {
+    required(context.user.address.city, {
       message: 'City is required',
     }),
-    required(context.state, {
+    required(context.user.address.state, {
       message: 'State is required',
     }),
-    required(context.country, {
+    required(context.user.address.country, {
       message: 'Country is required',
     }),
-    required(context.zip, {
+    required(context.user.address.zip, {
       message: 'Zip is required',
     }),
-    required(context.address, {
+    required(context.user.address, {
       message: 'Address is required',
     }),
-    required(context.phone, {
+    required(context.user.phone, {
       message: 'Phone is required',
     }),
-    required(context.role, {
+    required(context.user.role, {
       message: 'Role is required',
     }),
-    minLength(context.name, 3, {
+    minLength(context.user.name, 3, {
       message: 'Name must be at least 3 characters',
     }),
-    maxLength(context.name, 255, {
+    maxLength(context.user.name, 255, {
       message: 'Name must be at most 255 characters',
     }),
-    minLength(context.email, 3, {
+    minLength(context.user.email, 3, {
       message: 'Email must be at least 3 characters',
     }),
-    maxLength(context.email, 255, {
+    maxLength(context.user.email, 255, {
       message: 'Email must be at most 255 characters',
     }),
     minLength(context.password, 8, {
@@ -71,5 +71,5 @@ export const createUserFormSchema = schema<CreateUserForm>((context) => {
 
     return null;
   });
-  applyEach(context.hobbies, createUserHobbiesSchema);
+  applyEach(context.user.hobbies, createUserHobbiesSchema);
 });
