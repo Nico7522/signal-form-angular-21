@@ -6,7 +6,7 @@ import { map, type Observable } from 'rxjs';
 export class GetUserIdService {
   readonly #activatedRoute = inject(ActivatedRoute);
   readonly #userId$: Observable<string> = this.#activatedRoute.params.pipe(
-    map((params) => params['id'])
+    map((params) => params['id'] as string)
   );
 
   getUserId(): Observable<string> {

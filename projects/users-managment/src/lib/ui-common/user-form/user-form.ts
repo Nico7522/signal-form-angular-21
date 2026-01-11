@@ -1,6 +1,6 @@
-import { Component, input } from '@angular/core';
-import { Field, FieldTree } from '@angular/forms/signals';
-import { User } from '../../data';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { Field, type FieldTree } from '@angular/forms/signals';
+import { type User } from '../../data';
 import { AdressForm } from '../adress-form/adress-form';
 
 @Component({
@@ -8,6 +8,7 @@ import { AdressForm } from '../adress-form/adress-form';
   imports: [Field, AdressForm],
   templateUrl: './user-form.html',
   styleUrl: './user-form.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UserForm {
   inputForm = input.required<FieldTree<Omit<User, 'id'>>>();
@@ -16,12 +17,8 @@ export class UserForm {
    * This method is used to add a hobby to the edit user form.
    */
   addHobby() {
-    this.inputForm()
-      .hobbies()
-      .value.update((state) => ({
-        ...state,
-        hobbies: [...state, { hobby: '' }],
-      }));
+    const hobbies = this.inputForm().hobbies();
+    hobbies.value.update((state) => [...state, { hobby: '' }]);
   }
 
   /**
@@ -31,9 +28,6 @@ export class UserForm {
   removeHobby(index: number) {
     this.inputForm()
       .hobbies()
-      .value.update((state) => ({
-        ...state,
-        hobbies: state.filter((_, i) => i !== index),
-      }));
+      .value.update((state) => state.filter((_, i) => i !== index));
   }
 }

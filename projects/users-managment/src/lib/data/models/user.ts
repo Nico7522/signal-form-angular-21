@@ -1,4 +1,5 @@
-import { Address } from './address';
+import { type Address } from './address';
+import { type Passwords } from '..';
 
 export interface User {
   id: string;
@@ -12,11 +13,10 @@ export interface User {
 
 export type UserList = User[];
 
-export type CreateUserForm = {
+export interface CreateUserForm {
   user: Omit<User, 'id'>;
-  password: string;
-  confirmPassword: string;
-};
+  passwords: Passwords;
+}
 
 export const initCreateUserForm: CreateUserForm = {
   user: {
@@ -32,6 +32,8 @@ export const initCreateUserForm: CreateUserForm = {
     role: '',
     hobbies: [{ hobby: '' }],
   },
-  password: '',
-  confirmPassword: '',
+  passwords: {
+    password: '',
+    confirmPassword: '',
+  },
 };

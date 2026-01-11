@@ -1,10 +1,11 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
   FakeUserService,
   GetUserIdService,
   USER_SERVICE,
   UserService,
-  editUserSchema,
+  buildAddressValidator,
+  buildUserValidator,
 } from '../data';
 import { form } from '@angular/forms/signals';
 import { UserFormService } from '../data/services/user-form-service';
@@ -24,12 +25,16 @@ import { UserForm } from '../ui-common/user-form/user-form';
     UserFormService,
     UserService,
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EditUser {
   readonly #userFormService = inject(UserFormService);
   readonly #userService = inject(UserService);
   readonly #editUserForm = this.#userFormService.editUserForm;
-  protected readonly form = form(this.#editUserForm, editUserSchema);
+  protected readonly form = form(this.#editUserForm, (s) => {
+    buildUserValidator(s);
+    buildAddressValidator(s.address);
+  });
 
   /**
    * This method is used to handle the form submission.
@@ -41,26 +46,5 @@ export class EditUser {
       return;
     }
     this.#userService.update(this.form().value()).subscribe();
-  }
-
-  /**
-   * This method is used to add a hobby to the edit user form.
-   */
-  addHobby() {
-    this.#editUserForm.update((state) => ({
-      ...state,
-      hobbies: [...state.hobbies, { hobby: '' }],
-    }));
-  }
-
-  /**
-   * This method is used to remove a hobby from the edit user form.
-   * @param index - The index of the hobby to remove.
-   */
-  removeHobby(index: number) {
-    this.#editUserForm.update((state) => ({
-      ...state,
-      hobbies: state.hobbies.filter((_, i) => i !== index),
-    }));
   }
 }

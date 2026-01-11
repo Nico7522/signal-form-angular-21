@@ -12,6 +12,7 @@
   "endOfLine": "auto",
   "singleAttributePerLine": false,
   "htmlWhitespaceSensitivity": "css",
+
   "overrides": [
     {
       "files": "*.html",

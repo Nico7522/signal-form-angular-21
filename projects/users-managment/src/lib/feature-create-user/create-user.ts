@@ -1,12 +1,14 @@
-import { Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import {
-  createUserFormSchema,
   FakeUserService,
   GetUserIdService,
   initCreateUserForm,
   USER_SERVICE,
   UserService,
   type CreateUserForm,
+  buildAddressValidator,
+  buildUserValidator,
+  buildPasswordValidator,
 } from '../data';
 import { form } from '@angular/forms/signals';
 import { UserForm } from '../ui-common/user-form/user-form';
@@ -25,11 +27,16 @@ import { PasswordForm } from '../ui-common/password-form/password-form';
     GetUserIdService,
     UserService,
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CreateUser {
   readonly #userService = inject(UserService);
   readonly #user = signal<CreateUserForm>(initCreateUserForm);
-  protected readonly userForm = form(this.#user, createUserFormSchema);
+  protected readonly userForm = form(this.#user, (s) => {
+    buildUserValidator(s.user);
+    buildAddressValidator(s.user.address);
+    buildPasswordValidator(s.passwords);
+  });
 
   /**
    * This method is used to handle the form submission.
